@@ -1,8 +1,12 @@
 Rails.application.routes.draw do
-  resources :tickets do 
+  if Rails.env.development?
+    mount GraphiQL::Rails::Engine, at: "/graphiql", graphql_path: "/your/endpoint"
+  end
+  post "/graphql", to: "graphql#execute"
+  resources :tickets do
     collection do
       get :chart
-    end 
+    end
   end
 
   resources :users
